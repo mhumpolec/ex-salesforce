@@ -1211,11 +1211,11 @@
         },
         {
             "name": "keboola/extractor-bundle",
-            "version": "1.0.0-beta2",
+            "version": "1.0.0-beta3",
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:keboola/extractor-bundle.git",
-                "reference": "342faa787b58720f307ddb6566f6d14d141808dc"
+                "reference": "92faa706f788477518a29ffebd419b20c89a530c"
             },
             "require": {
                 "keboola/json-parser": "~0.1.0",
@@ -1247,7 +1247,7 @@
                 "keboola",
                 "syrup"
             ],
-            "time": "2014-10-29 16:43:35"
+            "time": "2014-10-31 15:08:59"
         },
         {
             "name": "keboola/json-parser",
