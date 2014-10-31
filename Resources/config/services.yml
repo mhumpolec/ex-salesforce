@@ -1,0 +1,11 @@
+services:
+    ex_sfdc.job_executor:
+        class: Keboola\SfdcExtractorBundle\Job\Executor
+        arguments: ['@keboola_extractor.configuration', '@ex_sfdc.extractor', '@logger', '@syrup.temp']
+    ex_sfdc.extractor:
+        class: Keboola\SfdcExtractorBundle\SfdcExtractor
+        arguments: {  }
+    keboola_extractor.configuration:
+        class: Keboola\ExtractorBundle\Common\Configuration
+        arguments: ['%app_name%', '@syrup.encryptor', '@syrup.temp']
+parameters: null

@@ -1,0 +1,54 @@
+{
+    "name": "keboola/salesforce-extractor-bundle",
+    "type": "symfony-bundle",
+    "description": "Keboola Salesforce Extractor Bundle",
+    "keywords": ["keboola", "salesforce", "extractor", "sfdc"],
+    "authors": [
+        {
+            "name": "Ondrej Hlavacek",
+            "email": "ondrej.hlavacek@keboola.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@bitbucket.org:keboola/extractor-bundle.git"
+        }
+    ],
+    "require": {
+        "keboola/extractor-bundle": "~1.0.0-beta",
+	"developerforce/force.com-toolkit-for-php": "1.0.*@dev"
+    },
+    "require-dev": {
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "Syrup\\CoreBundle\\DeploymentHandler\\ScriptHandler::getParameters",
+            "Syrup\\CoreBundle\\DeploymentHandler\\ScriptHandler::getSharedParameters",
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap"
+        ],
+        "post-update-cmd": [
+            "Syrup\\CoreBundle\\DeploymentHandler\\ScriptHandler::getParameters",
+            "Syrup\\CoreBundle\\DeploymentHandler\\ScriptHandler::getSharedParameters",
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache"
+        ]
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-0": { "Keboola\\SalesforceExtractorBundle": "" }
+    },
+    "target-dir": "Keboola/SalesforceExtractorBundle",
+    "extra": {
+        "symfony-app-dir": "vendor/keboola/syrup/app",
+        "symfony-web-dir": "vendor/keboola/syrup/web",
+        "incenteev-parameters": {
+            "keep-outdated": true,
+            "file": "vendor/keboola/syrup/app/config/parameters.yml",
+            "dist-file": "parameters.yml"
+        },
+        "syrup-app-name": "ex-sfdc"
+    }
+}
