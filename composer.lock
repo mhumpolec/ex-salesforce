@@ -1483,16 +1483,16 @@
         },
         {
             "name": "keboola/storage-api-client",
-            "version": "2.11.23",
+            "version": "2.11.24",
             "source": {
                 "type": "git",
                 "url": "https://github.com/keboola/storage-api-php-client.git",
-                "reference": "a361fc7579edbaa86088d07c3cd52f3d8e6ff421"
+                "reference": "3ce9f6c2b6287c4395074d6013cdd5d078874fc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/keboola/storage-api-php-client/zipball/a361fc7579edbaa86088d07c3cd52f3d8e6ff421",
-                "reference": "a361fc7579edbaa86088d07c3cd52f3d8e6ff421",
+                "url": "https://api.github.com/repos/keboola/storage-api-php-client/zipball/3ce9f6c2b6287c4395074d6013cdd5d078874fc7",
+                "reference": "3ce9f6c2b6287c4395074d6013cdd5d078874fc7",
                 "shasum": ""
             },
             "require": {
@@ -1519,20 +1519,20 @@
             ],
             "description": "Keboola Storage API PHP CLient",
             "homepage": "http://keboola.com",
-            "time": "2014-10-29 14:24:59"
+            "time": "2014-10-31 13:51:10"
         },
         {
             "name": "keboola/syrup",
-            "version": "1.6.5",
+            "version": "1.6.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/keboola/syrup.git",
-                "reference": "ea3ad24b1c0b787f4f8436d10d5853c287fc855f"
+                "reference": "a4601aa65d3393dd8a18f89784fd7502bdfb9f74"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/keboola/syrup/zipball/ea3ad24b1c0b787f4f8436d10d5853c287fc855f",
-                "reference": "ea3ad24b1c0b787f4f8436d10d5853c287fc855f",
+                "url": "https://api.github.com/repos/keboola/syrup/zipball/a4601aa65d3393dd8a18f89784fd7502bdfb9f74",
+                "reference": "a4601aa65d3393dd8a18f89784fd7502bdfb9f74",
                 "shasum": ""
             },
             "require": {
@@ -1563,7 +1563,7 @@
                 "MIT"
             ],
             "description": "Syrup - Concentrated extract(or)s",
-            "time": "2014-10-22 13:27:11"
+            "time": "2014-10-31 13:19:06"
         },
         {
             "name": "kriswallsmith/assetic",

@@ -1,13 +1,13 @@
 <?php
 
-namespace Keboola\SfdcExtractorBundle;
+namespace Keboola\SalesforceExtractorBundle;
 
 use Keboola\ExtractorBundle\Extractor\Extractors\JsonExtractor as Extractor;
 use Syrup\ComponentBundle\Exception\SyrupComponentException as Exception;
 use GuzzleHttp\Client as Client;
-use Keboola\SfdcExtractorBundle\SfdcExtractorJob;
+use Keboola\SalesforceExtractorBundle\SalesforceExtractorJob;
 
-class SfdcExtractor extends Extractor
+class SalesforceExtractor extends Extractor
 {
 	protected $name = "sfdc";
 
@@ -35,7 +35,7 @@ class SfdcExtractor extends Extractor
 		foreach($config["data"] as $jobConfig) {
 			// $this->parser is, by default, only pre-created when using JsonExtractor
 			// Otherwise it must be created like Above example, OR withing the job itself
-			$job = new SfdcExtractorJob($jobConfig, $client, $this->parser);
+			$job = new SalesforceExtractorJob($jobConfig, $client, $this->parser);
 			$job->run();
 		}
 

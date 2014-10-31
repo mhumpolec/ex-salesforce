@@ -1,12 +1,12 @@
 <?php
 
-namespace Keboola\SfdcExtractorBundle;
+namespace Keboola\SalesforceExtractorBundle;
 
 use Keboola\ExtractorBundle\Extractor\Jobs\JsonJob as ExtractorJob,
 	Keboola\ExtractorBundle\Common\Utils;
 use Syrup\ComponentBundle\Exception\SyrupComponentException as Exception;
 
-class SfdcExtractorJob extends ExtractorJob
+class SalesforceExtractorJob extends ExtractorJob
 {
 	protected $configName;
 

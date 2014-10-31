@@ -1,6 +1,6 @@
 <?php
 
-namespace Keboola\SfdcExtractorBundle\Controller;
+namespace Keboola\SalesforceExtractorBundle\Controller;
 
 use Keboola\ExtractorBundle\Controller\OAuth20Controller;
 

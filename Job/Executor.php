@@ -4,7 +4,7 @@
  * Date: 17/09/14
  */
 
-namespace Keboola\SfdcExtractorBundle\Job;
+namespace Keboola\SalesforceExtractorBundle\Job;
 
 use Keboola\ExtractorBundle\Syrup\Job\Executor as ExExecutor;
 
