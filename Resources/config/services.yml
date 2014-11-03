@@ -4,8 +4,10 @@ services:
         arguments: ['@keboola_extractor.configuration', '@ex_sfdc.extractor', '@logger', '@syrup.temp']
     ex_sfdc.extractor:
         class: Keboola\SalesforceExtractorBundle\SalesforceExtractor
-        arguments: {  }
+        arguments: ['%sfdc%']
     keboola_extractor.configuration:
         class: Keboola\ExtractorBundle\Common\Configuration
         arguments: ['%app_name%', '@syrup.encryptor', '@syrup.temp']
+
+
 parameters: null
