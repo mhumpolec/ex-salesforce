@@ -184,6 +184,7 @@ class SalesforceExtractorJob extends ExtractorJob
             $file = Table::create($deletedTableName, array("Id", "deletedDate"));
             $file->setPrimaryKey("Id");
             $file->setIncremental(true);
+            $file->setName($deletedTableName);
             $records = $this->sfc->getDeleted($this->getTableName(), date("Y-m-d", strtotime("-29 day")) . "T00:00:00Z", date("Y-m-d", strtotime("+1 day")) . "T00:00:00Z");
             if (isset($records->deletedRecords)) {
                 $deleted = $records->deletedRecords;

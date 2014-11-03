@@ -55,7 +55,7 @@ class SalesforceExtractor extends Extractor
         // TODO diff - nepřeprasí formát data
         // TODO errory v odpovědi SFDC
         // TODO uložit aktuální token
-
+        // TODO oauth a otestovat, zaregistrovat oauth url na SFDC
 
         $sfc = new \SforcePartnerClient();
         if (
