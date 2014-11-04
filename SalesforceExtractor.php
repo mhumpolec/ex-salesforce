@@ -64,13 +64,13 @@ class SalesforceExtractor extends Extractor
                 $sfc->createConnection(__DIR__ . "/Resources/sfdc/partner.wsdl.xml");
                 $sfc->login($config["attributes"]["username"], $config["attributes"]["passSecret"]);
             } catch (\SoapFault $e) {
-                throw new UserException("Can't login into Salesforce: " . $e->getMessage(), $e);
+                throw new UserException("Can't login into SalesForce: " . $e->getMessage(), $e);
             }
         }
-
 		foreach($config["data"] as $jobConfig) {
 
-            $tokenInfo = $this->revalidateAccessToken($config["attributes"]["accessToken"], $config["attributes"]["refreshToken"]);
+
+            $tokenInfo = $this->revalidateAccessToken($config["attributes"]["oauth"]["access_token"], $config["attributes"]["oauth"]["refresh_token"]);
             $client = new Client([
                 "base_url" => $tokenInfo->instance_url
             ]);
@@ -86,7 +86,7 @@ class SalesforceExtractor extends Extractor
 
 			$job->run();
             $this->sapiUpload($job->getCsvFiles());
-            $this->storageApi->setBucketAttribute("sys.c-" . $this->getFullName() . "." . $this->configName, "accessToken", $tokenInfo->access_token);
+            $this->storageApi->setBucketAttribute("sys.c-" . $this->getFullName() . "." . $this->configName, "oauth.access_token", $tokenInfo->access_token);
             unset($client);
             unset($parser);
 		}

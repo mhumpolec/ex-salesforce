@@ -17,7 +17,7 @@ class OAuthController extends OAuth20Controller
 	 * ie: https://api.example.com/oauth2/token
 	 * @var string
 	 */
-	protected $tokenUrl = "";
+	protected $tokenUrl = "https://login.salesforce.com/services/oauth2/token";
 
 	/**
 	 * Create OAuth 2.0 request code URL (use CODE "response type")
@@ -36,6 +36,6 @@ class OAuthController extends OAuth20Controller
 	 */
 	protected function getOAuthUrl($redirUrl, $clientId, $hash)
 	{
-		// return "https://api.example.com/oauth/authorize/?client_id={$clientId}&redirect_uri={$redirUrl}&response_type=code&state={$hash}";
+		return "https://login.salesforce.com/services/oauth2/authorize?client_id={$clientId}&redirect_uri=" . urlencode($redirUrl) . "&response_type=code&state={$hash}&scope=api refresh_token web";
 	}
 }

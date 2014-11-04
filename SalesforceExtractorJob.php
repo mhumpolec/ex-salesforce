@@ -81,8 +81,9 @@ class SalesforceExtractorJob extends ExtractorJob
         foreach($response->records as $key => $item) {
             $response->records[$key] = $this->removeAttributesFromResponse($item);
         }
-
-		$this->parser->process($response->records, $this->getTableName());
+        if (count($response->records) > 0) {
+		    $this->parser->process($response->records, $this->getTableName());
+        }
 	}
 
     /**
