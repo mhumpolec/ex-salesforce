@@ -8,6 +8,7 @@ use Monolog\Registry;
 use Syrup\ComponentBundle\Exception\SyrupComponentException as Exception;
 use GuzzleHttp\Client as Client;
 use Keboola\SalesforceExtractorBundle\SalesforceExtractorJob;
+use Syrup\ComponentBundle\Exception\UserException;
 
 class SalesforceExtractor extends Extractor
 {
@@ -50,11 +51,8 @@ class SalesforceExtractor extends Extractor
      */
     public function run($config)
     {
-        // TODO logy
-        // TODO odchytávání exceptions a chybový hlášky
         // TODO diff - nepřeprasí formát data
-        // TODO errory v odpovědi SFDC
-        // TODO uložit aktuální token
+        // TODO uložit aktuální sf token
         // TODO oauth a otestovat, zaregistrovat oauth url na SFDC
 
         $sfc = new \SforcePartnerClient();
@@ -62,15 +60,18 @@ class SalesforceExtractor extends Extractor
             isset($config["attributes"]["username"]) && $config["attributes"]["username"] != ''
             && isset($config["attributes"]["passSecret"]) && $config["attributes"]["username"] != ''
         ) {
-
-            $sfc->createConnection(__DIR__ . "/Resources/sfdc/partner.wsdl.xml");
-            $sfc->login($config["attributes"]["username"], $config["attributes"]["passSecret"]);
+            try {
+                $sfc->createConnection(__DIR__ . "/Resources/sfdc/partner.wsdl.xml");
+                $sfc->login($config["attributes"]["username"], $config["attributes"]["passSecret"]);
+            } catch (\SoapFault $e) {
+                throw new UserException("Can't login into Salesforce: " . $e->getMessage(), $e);
+            }
         }
 
 		foreach($config["data"] as $jobConfig) {
 
             $tokenInfo = $this->revalidateAccessToken($config["attributes"]["accessToken"], $config["attributes"]["refreshToken"]);
-            $client = new Client( [
+            $client = new Client([
                 "base_url" => $tokenInfo->instance_url
             ]);
             $client->setDefaultOption("headers", array(
@@ -85,7 +86,7 @@ class SalesforceExtractor extends Extractor
 
 			$job->run();
             $this->sapiUpload($job->getCsvFiles());
-
+            $this->storageApi->setBucketAttribute("sys.c-" . $this->getFullName() . "." . $this->configName, "accessToken", $tokenInfo->access_token);
             unset($client);
             unset($parser);
 		}

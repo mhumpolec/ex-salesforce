@@ -2,10 +2,13 @@
 
 namespace Keboola\SalesforceExtractorBundle;
 
+use GuzzleHttp\Exception\ClientException;
 use Keboola\CsvTable\Table;
 use Keboola\ExtractorBundle\Extractor\Jobs\JsonJob as ExtractorJob,
 	Keboola\ExtractorBundle\Common\Utils;
 use Syrup\ComponentBundle\Exception\SyrupComponentException as Exception;
+use Keboola\ExtractorBundle\Common\Logger;
+use Syrup\ComponentBundle\Exception\UserException;
 
 class SalesforceExtractorJob extends ExtractorJob
 {
@@ -125,7 +128,6 @@ class SalesforceExtractorJob extends ExtractorJob
      */
     public function __construct($jobConfig, $client, $parser, \SforcePartnerClient $sfc)
     {
-
         $matches = array();
         preg_match('/FROM (\w*)/', $jobConfig["query"], $matches);
         $outputTable = $matches[1];
@@ -157,10 +159,11 @@ class SalesforceExtractorJob extends ExtractorJob
     }
 
     /**
-     *
+     * @throws \Syrup\ComponentBundle\Exception\UserException
      */
     public function run()
     {
+        Logger::log("info", "Running query '" . $this->config["query"] . "'", array("config" => $this->config));
         parent::run();
 
         /** @var \Keboola\CsvTable\Table $file */
@@ -180,12 +183,19 @@ class SalesforceExtractorJob extends ExtractorJob
 
         // Add deleted files
         if ($this->config["load"] == 'incremental') {
+            if (!$this->sfc->getConnection()) {
+                throw new UserException("Invalid SFDC credentials.");
+            }
             $deletedTableName = $this->getTableName() . "_deleted";
             $file = Table::create($deletedTableName, array("Id", "deletedDate"));
             $file->setPrimaryKey("Id");
             $file->setIncremental(true);
             $file->setName($deletedTableName);
-            $records = $this->sfc->getDeleted($this->getTableName(), date("Y-m-d", strtotime("-29 day")) . "T00:00:00Z", date("Y-m-d", strtotime("+1 day")) . "T00:00:00Z");
+            try {
+                $records = $this->sfc->getDeleted($this->getTableName(), date("Y-m-d", strtotime("-29 day")) . "T00:00:00Z", date("Y-m-d", strtotime("+1 day")) . "T00:00:00Z");
+            } catch (\SoapFault $e) {
+                throw new UserException("Error retrieving deleted records: " . $e->getMessage());
+            }
             if (isset($records->deletedRecords)) {
                 $deleted = $records->deletedRecords;
                 if ($deleted && count($deleted)) {
@@ -196,8 +206,8 @@ class SalesforceExtractorJob extends ExtractorJob
             }
             $this->files[$deletedTableName] = $file;
         }
+        Logger::log("info", "Query finished", array("config" => $this->config));
     }
-
 
     /**
      * @return array
@@ -207,5 +217,28 @@ class SalesforceExtractorJob extends ExtractorJob
         return $this->files;
     }
 
-
+    /**
+     * @param \GuzzleHttp\Message\Request $request
+     * @return mixed|object
+     * @throws \Syrup\ComponentBundle\Exception\UserException
+     * @throws \Exception
+     * @throws SyrupComponentException
+     */
+    protected function download($request)
+    {
+        try {
+            $response = parent::download($request);
+            return $response;
+        } catch (\Syrup\ComponentBundle\Exception\SyrupComponentException $e) {
+            if ($e->getPrevious() && $e->getPrevious() instanceof ClientException && $e->getPrevious()->getResponse()->getStatusCode() == '400') {
+                /* @var ClientException $prev */
+                $prev = $e->getPrevious();
+                $response = json_decode($prev->getResponse()->getBody());
+                $userE = new UserException("Error downloading data from Salesforce:\n" . $response[0]->message, $e);
+                $userE->setData(array("response" => $response[0]));
+                throw $userE;
+            }
+            throw $e;
+        }
+    }
 }
