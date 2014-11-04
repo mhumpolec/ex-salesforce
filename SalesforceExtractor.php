@@ -51,10 +51,6 @@ class SalesforceExtractor extends Extractor
      */
     public function run($config)
     {
-        // TODO diff - nepřeprasí formát data
-        // TODO uložit aktuální sf token
-        // TODO oauth a otestovat, zaregistrovat oauth url na SFDC
-
         $sfc = new \SforcePartnerClient();
         if (
             isset($config["attributes"]["username"]) && $config["attributes"]["username"] != ''

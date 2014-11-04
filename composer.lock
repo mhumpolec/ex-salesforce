@@ -1211,11 +1211,11 @@
         },
         {
             "name": "keboola/extractor-bundle",
-            "version": "1.0.0-beta6",
+            "version": "1.0.0-beta7",
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:keboola/extractor-bundle.git",
-                "reference": "5df4ec767bc9a61b51bc7b2504d769ea662525e7"
+                "reference": "de99b17fc0eccd5740e078979cf82598a6a8a158"
             },
             "require": {
                 "keboola/json-parser": "~0.1.6",
@@ -1247,20 +1247,20 @@
                 "keboola",
                 "syrup"
             ],
-            "time": "2014-11-04 10:12:34"
+            "time": "2014-11-04 14:44:21"
         },
         {
             "name": "keboola/json-parser",
-            "version": "0.1.6",
+            "version": "0.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/keboola/php-jsonparser.git",
-                "reference": "7c5fddd859ab8df42fccc32b4b6e5c80d66025d4"
+                "reference": "3510969157e7a04ae6db5b525755e31fb4c54035"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/keboola/php-jsonparser/zipball/7c5fddd859ab8df42fccc32b4b6e5c80d66025d4",
-                "reference": "7c5fddd859ab8df42fccc32b4b6e5c80d66025d4",
+                "url": "https://api.github.com/repos/keboola/php-jsonparser/zipball/3510969157e7a04ae6db5b525755e31fb4c54035",
+                "reference": "3510969157e7a04ae6db5b525755e31fb4c54035",
                 "shasum": ""
             },
             "require": {
@@ -1296,7 +1296,7 @@
                 "json2csv",
                 "parser"
             ],
-            "time": "2014-11-03 17:09:32"
+            "time": "2014-11-04 15:20:19"
         },
         {
             "name": "keboola/php-csvtable",
