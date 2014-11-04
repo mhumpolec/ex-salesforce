@@ -54,11 +54,12 @@ class SalesforceExtractor extends Extractor
         $sfc = new \SforcePartnerClient();
         if (
             isset($config["attributes"]["username"]) && $config["attributes"]["username"] != ''
-            && isset($config["attributes"]["passSecret"]) && $config["attributes"]["username"] != ''
+            && isset($config["attributes"]["password"]) && $config["attributes"]["password"] != ''
+            && isset($config["attributes"]["securityToken"]) && $config["attributes"]["securityToken"] != ''
         ) {
             try {
                 $sfc->createConnection(__DIR__ . "/Resources/sfdc/partner.wsdl.xml");
-                $sfc->login($config["attributes"]["username"], $config["attributes"]["passSecret"]);
+                $sfc->login($config["attributes"]["username"], $config["attributes"]["password"] . $config["attributes"]["securityToken"]);
             } catch (\SoapFault $e) {
                 throw new UserException("Can't login into SalesForce: " . $e->getMessage(), $e);
             }
