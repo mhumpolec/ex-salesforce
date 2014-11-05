@@ -5,9 +5,7 @@ namespace Keboola\SalesforceExtractorBundle;
 use Keboola\ExtractorBundle\Extractor\Extractor as Extractor;
 use Keboola\Json\Parser;
 use Monolog\Registry;
-use Syrup\ComponentBundle\Exception\SyrupComponentException as Exception;
 use GuzzleHttp\Client as Client;
-use Keboola\SalesforceExtractorBundle\SalesforceExtractorJob;
 use Syrup\ComponentBundle\Exception\UserException;
 
 class SalesforceExtractor extends Extractor
@@ -41,6 +39,9 @@ class SalesforceExtractor extends Extractor
         return $response;
     }
 
+    /**
+     * @param $params
+     */
     public function __construct($params)
     {
         $this->params = $params;
@@ -48,6 +49,7 @@ class SalesforceExtractor extends Extractor
 
     /**
      * @param array $config
+     * @throws \Syrup\ComponentBundle\Exception\UserException
      */
     public function run($config)
     {
