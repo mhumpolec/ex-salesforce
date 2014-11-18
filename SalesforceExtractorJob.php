@@ -135,7 +135,7 @@ class SalesforceExtractorJob extends ExtractorJob
         $this->setTableName($outputTable);
 
         $query = $jobConfig["query"];
-        if ($jobConfig["load"] == 'incremental') {
+        if ($jobConfig["load"] == 'increments') {
         // Incremental queries require SOQL modification
             if (strpos($query, "WHERE") !== false ) {
                 $query .= " AND ";
@@ -171,7 +171,7 @@ class SalesforceExtractorJob extends ExtractorJob
         foreach($this->parser->getCsvFiles() as $file)
         {
             // Incremental
-            if ($this->config["load"] == 'incremental') {
+            if ($this->config["load"] == 'increments') {
                 $file->setIncremental(true);
             }
 
@@ -183,7 +183,7 @@ class SalesforceExtractorJob extends ExtractorJob
         $this->files = $this->parser->getCsvFiles();
 
         // Add deleted files
-        if ($this->config["load"] == 'incremental') {
+        if ($this->config["load"] == 'increments') {
             if (!$this->sfc->getConnection()) {
                 throw new UserException("Invalid Salesforce.com credentials.");
             }
