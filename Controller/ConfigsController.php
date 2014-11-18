@@ -9,7 +9,7 @@ use	Keboola\StorageApi\Table;
 use	Symfony\Component\HttpFoundation\Response;
 
 class ConfigsController extends Controller {
-	protected $appName = "ex-sfdc";
+	protected $appName = "ex-salesforce";
 	protected $columns = array (
       0 => 'load',
       1 => 'query',

@@ -1,10 +1,10 @@
 services:
-    ex_sfdc.job_executor:
+    ex_salesforce.job_executor:
         class: Keboola\SalesforceExtractorBundle\Job\Executor
-        arguments: ['@keboola_extractor.configuration', '@ex_sfdc.extractor', '@logger', '@syrup.temp']
-    ex_sfdc.extractor:
+        arguments: ['@keboola_extractor.configuration', '@ex_salesforce.extractor', '@logger', '@syrup.temp']
+    ex_salesforce.extractor:
         class: Keboola\SalesforceExtractorBundle\SalesforceExtractor
-        arguments: ['%sfdc%']
+        arguments: ['%salesforce%']
     keboola_extractor.configuration:
         class: Keboola\ExtractorBundle\Common\Configuration
         arguments: ['%app_name%', '@syrup.encryptor', '@syrup.temp']

@@ -49,6 +49,6 @@
             "file": "vendor/keboola/syrup/app/config/parameters.yml",
             "dist-file": "parameters.yml"
         },
-        "syrup-app-name": "ex-sfdc"
+        "syrup-app-name": "ex-salesforce"
     }
 }

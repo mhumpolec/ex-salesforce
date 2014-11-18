@@ -10,7 +10,7 @@ use Syrup\ComponentBundle\Exception\UserException;
 
 class SalesforceExtractor extends Extractor
 {
-	protected $name = "sfdc";
+	protected $name = "salesforce";
     protected $loginUrl = "https://login.salesforce.com";
     protected $params = array();
 

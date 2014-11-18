@@ -9,7 +9,7 @@ class OAuthController extends OAuth20Controller
 	/**
 	 * @var string
 	 */
-	protected $appName = "ex-sfdc";
+	protected $appName = "ex-salesforce";
 
 	/**
 	 * OAuth 2.0 token retrieval URL

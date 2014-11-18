@@ -185,7 +185,7 @@ class SalesforceExtractorJob extends ExtractorJob
         // Add deleted files
         if ($this->config["load"] == 'incremental') {
             if (!$this->sfc->getConnection()) {
-                throw new UserException("Invalid SFDC credentials.");
+                throw new UserException("Invalid Salesforce.com credentials.");
             }
             $deletedTableName = $this->getTableName() . "_deleted";
             $file = Table::create($deletedTableName, array("Id", "deletedDate"));

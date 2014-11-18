@@ -10,5 +10,5 @@ use Keboola\ExtractorBundle\Syrup\Job\Executor as ExExecutor;
 
 class Executor extends ExExecutor
 {
-	protected $appName = "ex-sfdc";
+	protected $appName = "ex-salesforce";
 }
