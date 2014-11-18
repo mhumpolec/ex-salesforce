@@ -15,11 +15,10 @@ class SalesforceExtractor extends Extractor
     protected $params = array();
 
     /**
-     * @param $accessToken
      * @param $refreshToken
      * @return \GuzzleHttp\Message\ResponseInterface|mixed
      */
-    protected function revalidateAccessToken($accessToken, $refreshToken)
+    protected function revalidateAccessToken($refreshToken)
     {
         $client = new Client(
                    [
@@ -66,17 +65,26 @@ class SalesforceExtractor extends Extractor
                 throw new UserException("Can't login into SalesForce: " . $e->getMessage(), $e);
             }
         }
-		foreach($config["data"] as $jobConfig) {
 
+        $rowId = null;
+        $params = $this->getSyrupJob()->getParams();
+        if (isset($params["rowId"])) {
+            $rowId = $params["rowId"];
+        }
 
-            $tokenInfo = $this->revalidateAccessToken($config["attributes"]["oauth"]["access_token"], $config["attributes"]["oauth"]["refresh_token"]);
+        foreach($config["data"] as $jobConfig) {
+             if ($rowId && $jobConfig["rowId"] != $rowId) {
+                 continue;
+             }
+            $tokenInfo = $this->revalidateAccessToken($config["attributes"]["oauth"]["refresh_token"]);
             $client = new Client([
-                "base_url" => $tokenInfo->instance_url
-            ]);
-            $client->setDefaultOption("headers", array(
-                    "Authorization" => "OAuth {$tokenInfo->access_token}"
+                "base_url" => $tokenInfo->instance_url,
+                "defaults" => array(
+                    "headers" => array(
+                        "Authorization" => "OAuth {$tokenInfo->access_token}"
+                    )
                 )
-            );
+            ]);
 
 			// $this->parser is, by default, only pre-created when using JsonExtractor
 			// Otherwise it must be created like Above example, OR withing the job itself
