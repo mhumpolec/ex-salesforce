@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5f849bb2da8400f5608ed22eff35689f",
+    "hash": "4613c8b83c29625168a4c139b13c7814",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1215,11 +1215,11 @@
         },
         {
             "name": "keboola/extractor-bundle",
-            "version": "1.0.0-beta11",
+            "version": "1.0.0-beta13",
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:keboola/extractor-bundle.git",
-                "reference": "67d8a56d1280d435d622723246f7ab1b126cd412"
+                "reference": "218b39d83e9a3507cd2306da359f0d3da5d45fc2"
             },
             "require": {
                 "keboola/json-parser": "~0.1.6",
@@ -1251,20 +1251,20 @@
                 "keboola",
                 "syrup"
             ],
-            "time": "2014-11-17 16:53:47"
+            "time": "2014-11-19 23:21:10"
         },
         {
             "name": "keboola/json-parser",
-            "version": "0.1.8",
+            "version": "0.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/keboola/php-jsonparser.git",
-                "reference": "9c2b1ffb2118018cce76ac7eef6617aabe0c0e8d"
+                "reference": "b398d63d438256554327173e4fc5c392c5ec169c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/keboola/php-jsonparser/zipball/9c2b1ffb2118018cce76ac7eef6617aabe0c0e8d",
-                "reference": "9c2b1ffb2118018cce76ac7eef6617aabe0c0e8d",
+                "url": "https://api.github.com/repos/keboola/php-jsonparser/zipball/b398d63d438256554327173e4fc5c392c5ec169c",
+                "reference": "b398d63d438256554327173e4fc5c392c5ec169c",
                 "shasum": ""
             },
             "require": {
@@ -1300,7 +1300,7 @@
                 "json2csv",
                 "parser"
             ],
-            "time": "2014-11-09 18:01:23"
+            "time": "2014-11-20 05:01:03"
         },
         {
             "name": "keboola/php-csvtable",
@@ -2349,17 +2349,17 @@
         },
         {
             "name": "syrup/component-bundle",
-            "version": "1.9.36",
+            "version": "1.9.37",
             "target-dir": "Syrup/ComponentBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/keboola/syrup-component-bundle.git",
-                "reference": "b3a5a2bbbc9cbb12bbd1c14b11e6a19615642d2c"
+                "reference": "268a63ccf8b4e96e13e2d8308067caec84028cd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/keboola/syrup-component-bundle/zipball/b3a5a2bbbc9cbb12bbd1c14b11e6a19615642d2c",
-                "reference": "b3a5a2bbbc9cbb12bbd1c14b11e6a19615642d2c",
+                "url": "https://api.github.com/repos/keboola/syrup-component-bundle/zipball/268a63ccf8b4e96e13e2d8308067caec84028cd6",
+                "reference": "268a63ccf8b4e96e13e2d8308067caec84028cd6",
                 "shasum": ""
             },
             "require": {
@@ -2400,7 +2400,7 @@
                 }
             ],
             "description": "Syrup ComponentBundle",
-            "time": "2014-11-18 12:12:37"
+            "time": "2014-11-18 16:36:37"
         },
         {
             "name": "twig/twig",
