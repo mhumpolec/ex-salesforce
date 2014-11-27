@@ -21,10 +21,10 @@ class SalesforceExtractor extends Extractor
     protected function revalidateAccessToken($refreshToken)
     {
         $client = new Client(
-                   [
-                       "base_url" => $this->loginUrl
-                   ]
-               );
+               [
+                   "base_url" => $this->loginUrl
+               ]
+        );
         $url = "/services/oauth2/token";
         $response = $client->post($url, array(
            "body" => array(
@@ -52,11 +52,28 @@ class SalesforceExtractor extends Extractor
      */
     public function run($config)
     {
+        $rowId = null;
+        $params = $this->getSyrupJob()->getParams();
+        if (isset($params["rowId"])) {
+            $rowId = $params["rowId"];
+        }
+
         $sfc = new \SforcePartnerClient();
+
+        $loginRequired = false;
+        foreach($config["data"] as $jobConfig) {
+            if ($rowId && $jobConfig["rowId"] != $rowId) {
+                continue;
+            }
+            if ($jobConfig["load"] == 'increments') {
+                $loginRequired = true;
+            }
+        }
         if (
             isset($config["attributes"]["username"]) && $config["attributes"]["username"] != ''
             && isset($config["attributes"]["password"]) && $config["attributes"]["password"] != ''
             && isset($config["attributes"]["securityToken"]) && $config["attributes"]["securityToken"] != ''
+            && $loginRequired
         ) {
             try {
                 $sfc->createConnection(__DIR__ . "/Resources/sfdc/partner.wsdl.xml");
@@ -66,11 +83,6 @@ class SalesforceExtractor extends Extractor
             }
         }
 
-        $rowId = null;
-        $params = $this->getSyrupJob()->getParams();
-        if (isset($params["rowId"])) {
-            $rowId = $params["rowId"];
-        }
 
         foreach($config["data"] as $jobConfig) {
              if ($rowId && $jobConfig["rowId"] != $rowId) {
