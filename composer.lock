@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4613c8b83c29625168a4c139b13c7814",
+    "hash": "37e76eb0bb93d4ac35eb18ba123c137b",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1215,11 +1215,11 @@
         },
         {
             "name": "keboola/extractor-bundle",
-            "version": "1.0.0-beta13",
+            "version": "1.0.7",
             "source": {
                 "type": "git",
                 "url": "git@bitbucket.org:keboola/extractor-bundle.git",
-                "reference": "218b39d83e9a3507cd2306da359f0d3da5d45fc2"
+                "reference": "cb2394a0d9dbb2841fb2128156a671f5a7f2af94"
             },
             "require": {
                 "keboola/json-parser": "~0.1.6",
@@ -1227,6 +1227,7 @@
                 "keboola/php-temp": "~0.1.0",
                 "keboola/php-utils": "~0.1.3",
                 "php": ">=5.4.0",
+                "symfony/symfony": ">=2.5.0,<2.5.7",
                 "syrup/component-bundle": "~1.9.17"
             },
             "require-dev": {
@@ -1251,20 +1252,20 @@
                 "keboola",
                 "syrup"
             ],
-            "time": "2014-11-19 23:21:10"
+            "time": "2014-11-27 18:03:24"
         },
         {
             "name": "keboola/json-parser",
-            "version": "0.1.9",
+            "version": "0.1.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/keboola/php-jsonparser.git",
-                "reference": "b398d63d438256554327173e4fc5c392c5ec169c"
+                "reference": "7b7b39e0269e6646ea0afca595fa17afed77ad7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/keboola/php-jsonparser/zipball/b398d63d438256554327173e4fc5c392c5ec169c",
-                "reference": "b398d63d438256554327173e4fc5c392c5ec169c",
+                "url": "https://api.github.com/repos/keboola/php-jsonparser/zipball/7b7b39e0269e6646ea0afca595fa17afed77ad7e",
+                "reference": "7b7b39e0269e6646ea0afca595fa17afed77ad7e",
                 "shasum": ""
             },
             "require": {
@@ -1300,7 +1301,7 @@
                 "json2csv",
                 "parser"
             ],
-            "time": "2014-11-20 05:01:03"
+            "time": "2014-11-23 08:40:38"
         },
         {
             "name": "keboola/php-csvtable",
@@ -1444,16 +1445,16 @@
         },
         {
             "name": "keboola/php-utils",
-            "version": "0.1.3",
+            "version": "0.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/keboola/php-utils.git",
-                "reference": "318a908aca4aaa39f6ef0a7560b712e0bb8d8de9"
+                "reference": "b854e418fced02cfb14010d7f98ed5215447bada"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/keboola/php-utils/zipball/318a908aca4aaa39f6ef0a7560b712e0bb8d8de9",
-                "reference": "318a908aca4aaa39f6ef0a7560b712e0bb8d8de9",
+                "url": "https://api.github.com/repos/keboola/php-utils/zipball/b854e418fced02cfb14010d7f98ed5215447bada",
+                "reference": "b854e418fced02cfb14010d7f98ed5215447bada",
                 "shasum": ""
             },
             "require": {
@@ -1483,7 +1484,7 @@
             "keywords": [
                 "utility"
             ],
-            "time": "2014-10-27 13:04:14"
+            "time": "2014-11-23 08:43:36"
         },
         {
             "name": "keboola/storage-api-client",
@@ -1803,17 +1804,17 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v3.0.8",
+            "version": "v3.0.10",
             "target-dir": "Sensio/Bundle/DistributionBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "bc5e96bb4faf6bee7121085951d11b89488952f5"
+                "reference": "ca188a500a7bef815a46f19f8616f0a775e7dbf2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/bc5e96bb4faf6bee7121085951d11b89488952f5",
-                "reference": "bc5e96bb4faf6bee7121085951d11b89488952f5",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/ca188a500a7bef815a46f19f8616f0a775e7dbf2",
+                "reference": "ca188a500a7bef815a46f19f8616f0a775e7dbf2",
                 "shasum": ""
             },
             "require": {
@@ -1852,7 +1853,7 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2014-11-03 21:16:34"
+            "time": "2014-11-23 18:30:35"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -2464,7 +2465,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "keboola/extractor-bundle": 10,
         "developerforce/force.com-toolkit-for-php": 20
     },
     "prefer-stable": false,

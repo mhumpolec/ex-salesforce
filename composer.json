@@ -16,8 +16,8 @@
         }
     ],
     "require": {
-        "keboola/extractor-bundle": "~1.0.0-beta",
-	"developerforce/force.com-toolkit-for-php": "1.0.*@dev"
+        "keboola/extractor-bundle": "~1.0.7",
+	    "developerforce/force.com-toolkit-for-php": "1.0.*@dev"
     },
     "require-dev": {
     },
