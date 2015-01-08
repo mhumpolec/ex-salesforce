@@ -85,9 +85,12 @@ class SalesforceExtractor extends Extractor
 
 
         foreach($config["data"] as $jobConfig) {
-             if ($rowId && $jobConfig["rowId"] != $rowId) {
-                 continue;
-             }
+            if ($rowId && $jobConfig["rowId"] != $rowId) {
+                continue;
+            }
+            if (!isset($config["attributes"]["oauth"]["refresh_token"])) {
+                throw new UserException("SalesForce.com not authorized.");
+            }
             $tokenInfo = $this->revalidateAccessToken($config["attributes"]["oauth"]["refresh_token"]);
             $client = new Client([
                 "base_url" => $tokenInfo->instance_url,
