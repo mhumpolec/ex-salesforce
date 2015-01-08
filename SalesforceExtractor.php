@@ -34,7 +34,7 @@ class SalesforceExtractor extends Extractor
                "refresh_token" => $refreshToken
            )
         ));
-        $response = \Keboola\Utils\Utils::json_decode($response->getBody());
+        $response = \Keboola\Utils\Utils::json_decode($response->getBody(), false, 512, 0, true);
         return $response;
     }
 
