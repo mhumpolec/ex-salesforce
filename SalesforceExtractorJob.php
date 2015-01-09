@@ -130,14 +130,17 @@ class SalesforceExtractorJob extends ExtractorJob
     public function __construct($jobConfig, $client, $parser, \SforcePartnerClient $sfc)
     {
         $matches = array();
-        preg_match('/FROM (\w*)/', $jobConfig["query"], $matches);
+        preg_match('/FROM (\w*)/i', $jobConfig["query"], $matches);
+        if (!isset($matches[1])) {
+            throw new UserException("Malformed query: {$jobConfig["query"]}");
+        }
         $outputTable = $matches[1];
         $this->setTableName($outputTable);
 
         $query = $jobConfig["query"];
         if ($jobConfig["load"] == 'increments') {
         // Incremental queries require SOQL modification
-            if (strpos($query, "WHERE") !== false ) {
+            if (stripos($query, "WHERE") !== false ) {
                 $query .= " AND ";
             } else {
                 $query .= " WHERE ";
@@ -145,8 +148,8 @@ class SalesforceExtractorJob extends ExtractorJob
             // OpportunityFieldHistory and *History do not have SystemModstamp, only CreatedDate
             // OpportunityHistory does have SystemModstamp
             if (
-                strpos($query, "OpportunityFieldHistory") !== false
-                    || strpos($query, "History") !== false && strpos($query, "FieldHistory") === false && strpos($query, "History") > 0) {
+                stripos($query, "OpportunityFieldHistory") !== false
+                    || stripos($query, "History") !== false && stripos($query, "FieldHistory") === false && stripos($query, "History") > 0) {
                 $query .= "CreatedDate > " . date("Y-m-d", strtotime("-1 week")) ."T00:00:00Z";
             } else {
                 $query .= "SystemModstamp > " . date("Y-m-d", strtotime("-1 week")) ."T00:00:00Z";
