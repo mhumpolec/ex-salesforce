@@ -4,6 +4,7 @@ namespace Keboola\SalesforceExtractorBundle;
 
 use Keboola\ExtractorBundle\Extractor\Extractor as Extractor;
 use Keboola\Json\Parser;
+use Keboola\Utils\Exception\JsonDecodeException;
 use Monolog\Registry;
 use GuzzleHttp\Client as Client;
 use Syrup\ComponentBundle\Exception\UserException;
@@ -34,7 +35,13 @@ class SalesforceExtractor extends Extractor
                "refresh_token" => $refreshToken
            )
         ));
-        $response = \Keboola\Utils\Utils::json_decode($response->getBody(), false, 512, 0, true);
+        try {
+            $response = \Keboola\Utils\Utils::json_decode($response->getBody(), false, 512, 0, true);
+        } catch (JsonDecodeException $e) {
+            $newE = new UserException("Cannot parse response from server when revalidating access token.", $e);
+            $newE->setData($e->getData());
+            throw $newE;
+        }
         return $response;
     }
 
