@@ -2,6 +2,7 @@
 
 namespace Keboola\SalesforceExtractorBundle;
 
+use Keboola\ExtractorBundle\Common\JobConfig;
 use Keboola\ExtractorBundle\Extractor\Extractor as Extractor;
 use Keboola\Json\Parser;
 use Keboola\Utils\Exception\JsonDecodeException;
@@ -55,7 +56,6 @@ class SalesforceExtractor extends Extractor
 
     /**
      * @param array $config
-     * @throws \Syrup\ComponentBundle\Exception\UserException
      */
     public function run($config)
     {
@@ -90,11 +90,10 @@ class SalesforceExtractor extends Extractor
             }
         }
 
-
-        foreach($config["data"] as $jobConfig) {
-            if ($rowId && $jobConfig["rowId"] != $rowId) {
-                continue;
-            }
+        /**
+         * @var $jobConfig JobConfig
+         */
+        foreach($config["jobs"] as $jobConfig) {
             if (!isset($config["attributes"]["oauth"]["refresh_token"])) {
                 throw new UserException("SalesForce.com not authorized.");
             }
@@ -112,7 +111,6 @@ class SalesforceExtractor extends Extractor
 			// Otherwise it must be created like Above example, OR withing the job itself
             $parser = new Parser(Registry::getInstance('extractor'), array(), 1);
 			$job = new SalesforceExtractorJob($jobConfig, $client, $parser, $sfc);
-
 			$job->run();
             $this->sapiUpload($job->getCsvFiles());
             $this->storageApi->setBucketAttribute("sys.c-" . $this->getFullName() . "." . $this->configName, "oauth.access_token", $tokenInfo->access_token);

@@ -1,13 +1,13 @@
 services:
     ex_salesforce.job_executor:
         class: Keboola\SalesforceExtractorBundle\Job\Executor
-        arguments: ['@keboola_extractor.configuration', '@ex_salesforce.extractor', '@logger', '@syrup.temp']
+        arguments: ['@keboola_extractor.configuration', '@ex_salesforce.extractor', '@logger', '@syrup.temp', '@syrup.encryptor']
     ex_salesforce.extractor:
         class: Keboola\SalesforceExtractorBundle\SalesforceExtractor
         arguments: ['%salesforce%']
     keboola_extractor.configuration:
         class: Keboola\ExtractorBundle\Common\Configuration
-        arguments: ['%app_name%', '@syrup.encryptor', '@syrup.temp']
+        arguments: ['%app_name%', '@syrup.temp']
 
 
 parameters: null

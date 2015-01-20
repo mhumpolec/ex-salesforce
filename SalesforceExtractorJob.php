@@ -4,6 +4,7 @@ namespace Keboola\SalesforceExtractorBundle;
 
 use GuzzleHttp\Exception\ClientException;
 use Keboola\CsvTable\Table;
+use Keboola\ExtractorBundle\Common\JobConfig;
 use Keboola\ExtractorBundle\Extractor\Jobs\JsonJob as ExtractorJob,
 	Keboola\ExtractorBundle\Common\Utils;
 use Syrup\ComponentBundle\Exception\SyrupComponentException as Exception;
@@ -56,7 +57,7 @@ class SalesforceExtractorJob extends ExtractorJob
 	 * @param $response
 	 * @return \Keboola\ExtractorBundle\Client\SoapRequest | \GuzzleHttp\Message\Request | false
 	 */
-	protected function nextPage($response)
+	protected function nextPage($response, $data)
     {
 		if ($response->done) {
 			return false;
@@ -84,6 +85,7 @@ class SalesforceExtractorJob extends ExtractorJob
         if (count($response->records) > 0) {
 		    $this->parser->process($response->records, $this->getTableName());
         }
+        return $response;
 	}
 
     /**
@@ -122,23 +124,23 @@ class SalesforceExtractorJob extends ExtractorJob
     }
 
     /**
-     * @param array $jobConfig
-     * @param $client
+     * @param JobConfig $jobConfig
+     * @param mixed $client
      * @param null $parser
      * @param \SforcePartnerClient $sfc
      */
-    public function __construct($jobConfig, $client, $parser, \SforcePartnerClient $sfc)
+    public function __construct(JobConfig $jobConfig, $client, $parser, \SforcePartnerClient $sfc)
     {
         $matches = array();
-        preg_match('/FROM (\w*)/i', $jobConfig["query"], $matches);
+        preg_match('/FROM (\w*)/i', $jobConfig->getConfig()["query"], $matches);
         if (!isset($matches[1])) {
-            throw new UserException("Malformed query: {$jobConfig["query"]}");
+            throw new UserException("Malformed query: {$jobConfig->getConfig()["query"]}");
         }
         $outputTable = $matches[1];
         $this->setTableName($outputTable);
 
-        $query = $jobConfig["query"];
-        if ($jobConfig["load"] == 'increments') {
+        $query = $jobConfig->getConfig()["query"];
+        if ($jobConfig->getConfig()["load"] == 'increments') {
         // Incremental queries require SOQL modification
             if (stripos($query, "WHERE") !== false ) {
                 $query .= " AND ";
@@ -155,7 +157,7 @@ class SalesforceExtractorJob extends ExtractorJob
                 $query .= "SystemModstamp > " . date("Y-m-d", strtotime("-1 week")) ."T00:00:00Z";
             }
         }
-        $jobConfig["query"] = $query;
+        $jobConfig->getConfig()["query"] = $query;
 
         $this->sfc = $sfc;
 
