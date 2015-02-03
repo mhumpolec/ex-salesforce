@@ -2,6 +2,7 @@
 
 namespace Keboola\SalesforceExtractorBundle;
 
+use GuzzleHttp\Exception\ClientException;
 use Keboola\ExtractorBundle\Common\JobConfig;
 use Keboola\ExtractorBundle\Extractor\Extractor as Extractor;
 use Keboola\Json\Parser;
@@ -28,14 +29,27 @@ class SalesforceExtractor extends Extractor
                ]
         );
         $url = "/services/oauth2/token";
-        $response = $client->post($url, array(
-           "body" => array(
-               "grant_type" => "refresh_token",
-               "client_id" => $this->params["client-id"],
-               "client_secret" => $this->params["client-secret"],
-               "refresh_token" => $refreshToken
-           )
-        ));
+        $retries = 1;
+        $success = false;
+        while (!$success) {
+            try {
+                $response = $client->post($url, array(
+                    "body" => array(
+                        "grant_type" => "refresh_token",
+                        "client_id" => $this->params["client-id"],
+                        "client_secret" => $this->params["client-secret"],
+                        "refresh_token" => $refreshToken
+                    )
+                ));
+                $success = true;
+            } catch (ClientException $e) {
+                $retries++;
+                sleep(10);
+                if ($retries >= 3) {
+                    throw $e;
+                }
+            }
+        }
         try {
             $response = \Keboola\Utils\Utils::json_decode($response->getBody(), false, 512, 0, true);
         } catch (JsonDecodeException $e) {
