@@ -72,8 +72,9 @@ class SalesforceExtractorJob extends ExtractorJob
 	 * - JsonMap accepts a single row to parse()
 	 * - Json::process(), Json::parse() (OBSOLETE) and Wsdl::parse() accept complete datasets (a full page)
 	 *
-	 * @param object $response
-	 */
+     * @param mixed $response
+     * @return mixed
+     */
 	protected function parse($response)
     {
 		/**
@@ -139,8 +140,12 @@ class SalesforceExtractorJob extends ExtractorJob
         $outputTable = $matches[1];
         $this->setTableName($outputTable);
 
-        $query = $jobConfig->getConfig()["query"];
-        if ($jobConfig->getConfig()["load"] == 'increments') {
+
+        $this->sfc = $sfc;
+        parent::__construct($jobConfig, $client, $parser);
+
+        $query = $this->config["query"];
+        if ($this->config["load"] == 'increments') {
         // Incremental queries require SOQL modification
             if (stripos($query, "WHERE") !== false ) {
                 $query .= " AND ";
@@ -157,11 +162,7 @@ class SalesforceExtractorJob extends ExtractorJob
                 $query .= "SystemModstamp > " . date("Y-m-d", strtotime("-1 week")) ."T00:00:00Z";
             }
         }
-        $jobConfig->getConfig()["query"] = $query;
-
-        $this->sfc = $sfc;
-
-        parent::__construct($jobConfig, $client, $parser);
+        $this->config["query"] = $query;
     }
 
     /**
