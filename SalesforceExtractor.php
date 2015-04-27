@@ -44,9 +44,14 @@ class SalesforceExtractor extends Extractor
                 $success = true;
             } catch (ClientException $e) {
                 $retries++;
-                sleep(10);
+                sleep(600);
                 if ($retries >= 3) {
-                    throw $e;
+                    if ($e->getCode() >= 400 && $e->getCode() < 500) {
+                        $message = "Cannot revalidate access token: " . $e->getMessage() . ". Try again later or try refreshing your access token.";
+                        throw new UserException($message, $e);
+                    } else {
+                        throw $e;
+                    }
                 }
             }
         }
