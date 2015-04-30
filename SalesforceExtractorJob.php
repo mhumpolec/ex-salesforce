@@ -2,6 +2,7 @@
 
 namespace Keboola\SalesforceExtractorBundle;
 
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ClientException;
 use Keboola\CsvTable\Table;
 use Keboola\ExtractorBundle\Common\JobConfig;
@@ -246,6 +247,15 @@ class SalesforceExtractorJob extends ExtractorJob
                 throw $userE;
             }
             throw $e;
+        } catch (RequestException $e) {
+            // cUrl #52 error - salesforce may return empty response after a dropped connection during a long query
+            if (strpos($e->getMessage(), "(#52)") !== false) {
+                $message = "Connection with Salesforce was dropped.
+                    It may be a connectivity issue, so please try again later.
+                    If this happens regularly, you might be querying a large table in Salesforce and they drop the connection after 30 minutes.
+                    To solve this issue limit your query to less results or extract the table incrementally.";
+                throw new UserException($message, $e);
+            }
         }
     }
 }
