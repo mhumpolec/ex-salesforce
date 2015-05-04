@@ -32,6 +32,8 @@ class SalesforceExtractor extends Extractor
         $retries = 1;
         $success = false;
         while (!$success) {
+            $retry = false;
+            $exception = null;
             try {
                 $response = $client->post($url, array(
                     "body" => array(
@@ -42,15 +44,22 @@ class SalesforceExtractor extends Extractor
                     )
                 ));
                 $success = true;
+            } catch (ServerException $e) {
+                $exception = $e;
+                $retry = true;
             } catch (ClientException $e) {
+                $exception = $e;
+                $retry = true;
+            }
+            if ($retry) {
                 $retries++;
                 sleep(600);
                 if ($retries >= 3) {
-                    if ($e->getCode() >= 400 && $e->getCode() < 500) {
-                        $message = "Cannot revalidate access token: " . $e->getMessage() . ". Try again later or try refreshing your access token.";
-                        throw new UserException($message, $e);
+                    if ($exception->getCode() >= 400 && $exception->getCode() < 500 || $exception->getCode() == 503) {
+                        $message = "Cannot revalidate access token: " . $exception->getMessage() . ". Try again later or try refreshing your access token.";
+                        throw new UserException($message, $exception);
                     } else {
-                        throw $e;
+                        throw $exception;
                     }
                 }
             }
