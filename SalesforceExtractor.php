@@ -3,6 +3,7 @@
 namespace Keboola\SalesforceExtractorBundle;
 
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ServerException;
 use Keboola\ExtractorBundle\Common\JobConfig;
 use Keboola\ExtractorBundle\Extractor\Extractor as Extractor;
 use Keboola\Json\Parser;
