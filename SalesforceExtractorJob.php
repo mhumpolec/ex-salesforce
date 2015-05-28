@@ -200,7 +200,7 @@ class SalesforceExtractorJob extends ExtractorJob
             $file->setIncremental(true);
             $file->setName($deletedTableName);
             try {
-                $records = $this->sfc->getDeleted($this->getTableName(), date("Y-m-d", strtotime("-29 day")) . "T00:00:00Z", date("Y-m-d", strtotime("+1 day")) . "T00:00:00Z");
+                $records = $this->sfc->getDeleted($this->getTableName(), date("Y-m-d", strtotime("-15 day")) . "T00:00:00Z", date("Y-m-d", strtotime("+1 day")) . "T00:00:00Z");
             } catch (\SoapFault $e) {
                 throw new UserException("Error retrieving deleted records: " . $e->getMessage());
             }
