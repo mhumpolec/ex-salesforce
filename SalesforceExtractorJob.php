@@ -199,18 +199,26 @@ class SalesforceExtractorJob extends ExtractorJob
             $file->setPrimaryKey("Id");
             $file->setIncremental(true);
             $file->setName($deletedTableName);
-            try {
-                $records = $this->sfc->getDeleted($this->getTableName(), date("Y-m-d", strtotime("-15 day")) . "T00:00:00Z", date("Y-m-d", strtotime("+1 day")) . "T00:00:00Z");
-            } catch (\SoapFault $e) {
-                throw new UserException("Error retrieving deleted records: " . $e->getMessage());
-            }
-            if (isset($records->deletedRecords)) {
-                $deleted = $records->deletedRecords;
-                if ($deleted && count($deleted)) {
-                    foreach($deleted as $deletedItem) {
-                        $file->writeRow(array($deletedItem->id, $deletedItem->deletedDate));
+            // cycle through single days
+            for($i = 0; $i <= 14; $i++) {
+                $dateFrom = date("Y-m-d", strtotime(-$i . " day")) . "T00:00:00Z";
+                $dateTo = date("Y-m-d", strtotime(-$i + 1 . " day")) . "T00:00:00Z";
+                try {
+                    $records = $this->sfc->getDeleted($this->getTableName(), $dateFrom, $dateTo);
+                } catch (\SoapFault $e) {
+                    throw new UserException("Error retrieving deleted records: " . $e->getMessage(), $e);
+                }
+                $count = 0;
+                if (isset($records->deletedRecords)) {
+                    $deleted = $records->deletedRecords;
+                    $count = count($deleted);
+                    if ($deleted && count($deleted)) {
+                        foreach($deleted as $deletedItem) {
+                            $file->writeRow(array($deletedItem->id, $deletedItem->deletedDate));
+                        }
                     }
                 }
+                Logger::log("info", "Retrieved {$count} deleted records for '" . $this->getTableName() . "' between {$dateFrom} and {$dateTo}.", array("config" => $this->config));
             }
             $this->files[$deletedTableName] = $file;
         }
