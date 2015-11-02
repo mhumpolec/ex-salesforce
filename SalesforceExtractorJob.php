@@ -78,6 +78,9 @@ class SalesforceExtractorJob extends ExtractorJob
      */
 	protected function parse($response)
     {
+        if (!$response) {
+            throw new UserException("No response from API. SFDC may be warming up the cache, please try again later.");
+        }
 		/**
 		 * Edit according to the parser used
 		 */
