@@ -16,6 +16,7 @@ class SalesforceExtractor extends Extractor
 {
 	protected $name = "salesforce";
     protected $loginUrl = "https://login.salesforce.com";
+    protected $testloginUrl = "https://test.salesforce.com";
     protected $params = array();
 
     /**
@@ -24,11 +25,17 @@ class SalesforceExtractor extends Extractor
      */
     protected function revalidateAccessToken($refreshToken)
     {
-        $client = new Client(
-               [
-                   "base_url" => $this->loginUrl
-               ]
-        );
+        if( $config["attributes"]["sandbox"] == false) {
+	        $client = new Client(
+	               [
+	                   "base_url" => $this->loginUrl
+	               ]);
+        } else {
+	        $client = new Client(
+	               [
+	                   "base_url" => $this->testloginUrl
+	               ]);
+        }
         $url = "/services/oauth2/token";
         $retries = 1;
         $success = false;
@@ -112,7 +119,12 @@ class SalesforceExtractor extends Extractor
             && $loginRequired
         ) {
             try {
-                $sfc->createConnection(__DIR__ . "/Resources/sfdc/partner.wsdl.xml");
+                if( $config["attributes"]["sandbox"] == false) {
+                	$sfc->createConnection(__DIR__ . "/Resources/sfdc/partner.wsdl.xml");
+                }
+                else {
+                	$sfc->createConnection(__DIR__ . "/Resources/sfdc/partnertest.wsdl.xml");                
+                }
                 $sfc->login($config["attributes"]["username"], $config["attributes"]["password"] . $config["attributes"]["securityToken"]);
             } catch (\SoapFault $e) {
                 throw new UserException("Can't login into SalesForce: " . $e->getMessage(), $e);
